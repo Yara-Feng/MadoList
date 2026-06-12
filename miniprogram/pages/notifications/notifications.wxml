@@ -1,0 +1,51 @@
+<!-- pages/notifications/notifications.wxml -->
+<view class="container">
+  <!-- 全部已读按钮 -->
+  <view class="header-bar" wx:if="{{notifications.length > 0}}">
+    <text></text>
+    <text class="text-sm text-primary" bindtap="markAllRead">全部已读</text>
+  </view>
+
+  <!-- 加载中 -->
+  <view wx:if="{{refreshing}}" class="text-center mt-lg">
+    <text class="text-secondary">加载中...</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:elif="{{notifications.length === 0}}" class="empty-state">
+    <text>🔔</text>
+    <text class="text-lg mt-md">暂无通知</text>
+  </view>
+
+  <!-- 通知列表 -->
+  <view wx:else>
+    <view
+      wx:for="{{notifications}}" wx:key="_id"
+      class="card notification-card {{item.isRead ? '' : 'notification-unread'}}"
+      bindtap="onTapNotification"
+      data-index="{{index}}"
+    >
+      <view class="flex-row">
+        <view class="flex-1">
+          <view class="flex-row">
+            <view wx:if="{{!item.isRead}}" class="unread-dot"></view>
+            <text class="text-sm text-secondary">{{item.typeLabel}}</text>
+          </view>
+          <view class="text-base mt-xs">{{item.title}}</view>
+          <view class="text-sm text-secondary mt-xs">{{item.content}}</view>
+          <view class="text-xs text-placeholder mt-xs">{{item.formattedTime}}</view>
+        </view>
+        <text class="text-secondary">→</text>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="text-center mt-md mb-lg" wx:if="{{hasMore}}">
+      <text class="text-sm text-secondary" wx:if="{{loading}}">加载中...</text>
+      <text class="text-sm text-primary" wx:else bindtap="loadMore">加载更多</text>
+    </view>
+    <view class="text-center mt-md mb-lg" wx:else>
+      <text class="text-sm text-placeholder">— 没有更多了 —</text>
+    </view>
+  </view>
+</view>

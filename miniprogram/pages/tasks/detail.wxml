@@ -1,0 +1,95 @@
+<!-- pages/tasks/detail.wxml -->
+<view class="container">
+  <view wx:if="{{!loading}}">
+    <!-- 标题 -->
+    <view class="card">
+      <view class="field-label">标题</view>
+      <input class="field-input text-lg text-bold" placeholder="输入待办标题" value="{{task.title}}" bindinput="onTitleInput" maxlength="100" />
+    </view>
+
+    <!-- 描述 -->
+    <view class="card">
+      <view class="field-label">描述</view>
+      <textarea class="field-textarea" placeholder="添加描述（可选）" value="{{task.description}}" bindinput="onDescInput" maxlength="500" auto-height />
+    </view>
+
+    <!-- 优先级 -->
+    <view class="card">
+      <view class="field-label">优先级</view>
+      <view class="option-row">
+        <view class="option-tag {{task.priority === 'LOW' ? 'option-tag-active tag-priority-low' : ''}}" data-value="LOW" bindtap="onSelectPriority">低</view>
+        <view class="option-tag {{task.priority === 'MEDIUM' ? 'option-tag-active tag-priority-medium' : ''}}" data-value="MEDIUM" bindtap="onSelectPriority">中</view>
+        <view class="option-tag {{task.priority === 'HIGH' ? 'option-tag-active tag-priority-high' : ''}}" data-value="HIGH" bindtap="onSelectPriority">高</view>
+      </view>
+    </view>
+
+    <!-- 截止时间 -->
+    <view class="card">
+      <view class="field-label">截止时间</view>
+      <picker mode="multiSelector" value="{{[0,0,0,0,0]}}" bindchange="onDueTimeChange">
+        <view class="picker-value {{task.dueTime ? '' : 'text-placeholder'}}">
+          {{task.dueTime || '选择截止时间（可选）'}}
+        </view>
+      </picker>
+      <!-- 简化：使用文本输入 -->
+      <input class="field-input" placeholder="yyyy-MM-dd HH:mm" value="{{task.dueTime}}" bindinput="onDueTimeInput" />
+    </view>
+
+    <!-- 可见性 -->
+    <view class="card">
+      <view class="flex-between">
+        <view>
+          <view class="field-label">可见范围</view>
+          <view class="text-sm text-secondary mt-xs">
+            {{task.visibility === 'GROUP' ? '小组内所有成员可见' : '仅自己可见'}}
+          </view>
+        </view>
+        <switch checked="{{task.visibility === 'GROUP'}}" bindchange="onSwitchVisibility" color="#0052D9" />
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="actions">
+      <view class="btn btn-primary btn-block" bindtap="saveTask" wx:if="{{isCreate}}">
+        创建待办
+      </view>
+      <view class="btn btn-primary btn-block" bindtap="saveTask" wx:else>
+        保存修改
+      </view>
+
+      <view wx:if="{{!isCreate}}" class="mt-md">
+        <!-- 完成/取消完成 -->
+        <view class="btn {{task.status === 'DONE' ? 'btn-outline' : 'btn-primary'}} btn-block mt-sm" bindtap="toggleStatus">
+          {{task.status === 'DONE' ? '取消完成' : '标记完成'}}
+        </view>
+
+        <!-- 提醒成员（仅共享待办） -->
+        <view wx:if="{{task.visibility === 'GROUP'}}" class="btn btn-outline btn-block mt-sm" bindtap="showRemindPicker">
+          提醒Ta
+        </view>
+
+        <!-- 删除 -->
+        <view class="btn btn-danger btn-block mt-md" bindtap="deleteTask">
+          删除待办
+        </view>
+      </view>
+    </view>
+
+    <!-- 成员选择弹窗 -->
+    <view class="modal-mask" wx:if="{{showMemberPicker}}" bindtap="showMemberPicker">
+      <view class="modal-content" catchtap="">
+        <view class="modal-title">选择要提醒的成员</view>
+        <view wx:for="{{members}}" wx:key="_id" class="member-item" bindtap="onSelectMember" data-index="{{index}}">
+          <image class="avatar avatar-sm" src="{{item.avatarUrl || '/images/avatar.png'}}" mode="aspectFill" />
+          <text class="ml-sm">{{item.nickname}}</text>
+        </view>
+        <view class="btn btn-outline btn-block mt-md" bindtap="showMemberPicker">取消</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view wx:else class="text-center mt-lg">
+    <text class="text-secondary">加载中...</text>
+  </view>
+</view>

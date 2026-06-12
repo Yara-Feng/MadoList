@@ -1,0 +1,35 @@
+<!-- components/task-card/index.wxml -->
+<view class="card task-card {{task.status === 'DONE' ? 'task-done' : ''}}" bindtap="onTap">
+  <view class="flex-row">
+    <!-- 完成勾选框 -->
+    <view class="checkbox {{task.status === 'DONE' ? 'checked' : ''}} mr-sm" catchtap="onToggle">
+      {{task.status === 'DONE' ? '✅' : '⭕'}}
+    </view>
+
+    <view class="flex-1">
+      <!-- 标题 -->
+      <text class="text-base text-bold {{task.status === 'DONE' ? 'task-title-done' : ''}}">{{task.title}}</text>
+
+      <!-- 标签行 -->
+      <view class="flex-row mt-xs">
+        <!-- 优先级标签 -->
+        <view class="tag {{task.priority === 'HIGH' ? 'tag-priority-high' : task.priority === 'MEDIUM' ? 'tag-priority-medium' : 'tag-priority-low'}}">
+          {{task.priority === 'HIGH' ? '高' : task.priority === 'MEDIUM' ? '中' : '低'}}
+        </view>
+
+        <!-- 可见性标签 -->
+        <view class="tag {{task.visibility === 'GROUP' ? 'tag-visibility-group' : 'tag-visibility-personal'}} ml-sm">
+          {{task.visibility === 'GROUP' ? '共享' : '个人'}}
+        </view>
+
+        <!-- 截止时间 -->
+        <text class="text-sm text-secondary ml-sm" wx:if="{{task.dueTime}}">
+          📅 {{task.dueTime}}
+        </text>
+      </view>
+    </view>
+
+    <!-- 箭头 -->
+    <text class="text-secondary ml-sm">→</text>
+  </view>
+</view>

@@ -1,0 +1,17 @@
+<!-- pages/group/join.wxml -->
+<view class="container">
+  <view class="card">
+    <view class="text-lg text-bold mb-md">加入小组</view>
+    <view class="text-sm text-secondary mb-lg">输入好友分享的6位邀请码</view>
+    <input class="code-input" placeholder="输入邀请码" value="{{inviteCode}}" bindinput="onCodeInput" maxlength="6" focus />
+    <view class="text-center text-sm text-secondary mt-sm">自动识别大写字母</view>
+  </view>
+
+  <view class="btn btn-primary btn-block mt-lg" bindtap="joinGroup" disabled="{{joining}}">
+    {{joining ? '加入中...' : '加入小组'}}
+  </view>
+
+  <view class="text-center mt-lg">
+    <text class="text-sm text-secondary">没有邀请码？请好友在小组成员页查看</text>
+  </view>
+</view>

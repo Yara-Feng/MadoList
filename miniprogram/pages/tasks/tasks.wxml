@@ -1,0 +1,136 @@
+<!-- pages/tasks/tasks.wxml -->
+<view class="container">
+  <!-- 顶栏：筛选 + 排序 -->
+  <view class="toolbar">
+    <view class="toolbar-left">
+      <view class="toolbar-btn {{showFilterPanel ? 'active' : ''}}" bindtap="toggleFilterPanel">
+        <text>筛选</text>
+        <text class="arrow">▼</text>
+      </view>
+      <view class="toolbar-btn {{showSortPanel ? 'active' : ''}}" bindtap="toggleSortPanel">
+        <text>排序</text>
+        <text class="arrow">▼</text>
+      </view>
+    </view>
+    <view class="toolbar-right">
+      <text class="text-sm text-secondary">
+        {{sortOrder === 'asc' ? '↑' : '↓'}}
+      </text>
+      <text class="text-sm text-secondary ml-xs" bindtap="toggleSortOrder">切换</text>
+    </view>
+  </view>
+
+  <!-- 筛选面板 -->
+  <view class="panel" wx:if="{{showFilterPanel}}">
+    <view class="panel-section">
+      <text class="panel-label">状态</text>
+      <view class="panel-tags">
+        <view
+          wx:for="{{statusOptions}}" wx:key="value"
+          class="panel-tag {{filterStatus === item.value ? 'panel-tag-active' : ''}}"
+          data-value="{{item.value}}"
+          bindtap="onSelectStatus"
+        >{{item.label}}</view>
+      </view>
+    </view>
+    <view class="panel-section">
+      <text class="panel-label">优先级</text>
+      <view class="panel-tags">
+        <view
+          wx:for="{{priorityOptions}}" wx:key="value"
+          class="panel-tag {{filterPriority === item.value ? 'panel-tag-active' : ''}}"
+          data-value="{{item.value}}"
+          bindtap="onSelectPriority"
+        >{{item.label}}</view>
+      </view>
+    </view>
+    <view class="panel-section">
+      <text class="panel-label">类型</text>
+      <view class="panel-tags">
+        <view
+          wx:for="{{visibilityOptions}}" wx:key="value"
+          class="panel-tag {{filterVisibility === item.value ? 'panel-tag-active' : ''}}"
+          data-value="{{item.value}}"
+          bindtap="onSelectVisibility"
+        >{{item.label}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 排序面板 -->
+  <view class="panel" wx:if="{{showSortPanel}}">
+    <view class="panel-section">
+      <text class="panel-label">排序方式</text>
+      <view class="panel-tags">
+        <view
+          wx:for="{{sortOptions}}" wx:key="value"
+          class="panel-tag {{sortBy === item.value ? 'panel-tag-active' : ''}}"
+          data-value="{{item.value}}"
+          bindtap="onSelectSort"
+        >{{item.label}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 待办列表 -->
+  <view class="task-list">
+    <view wx:if="{{refreshing}}" class="text-center mt-lg">
+      <text class="text-secondary">加载中...</text>
+    </view>
+
+    <view wx:elif="{{tasks.length === 0}}" class="empty-state">
+      <text>暂无待办事项</text>
+      <view class="btn btn-primary btn-sm mt-md" bindtap="goToCreate">创建待办</view>
+    </view>
+
+    <view wx:else>
+      <view
+        wx:for="{{tasks}}" wx:key="_id"
+        class="card task-card {{item.status === 'DONE' ? 'task-done' : ''}}"
+        bindtap="goToDetail"
+        data-id="{{item._id}}"
+      >
+        <view class="flex-row">
+          <!-- 完成状态勾选 -->
+          <view
+            class="checkbox {{item.status === 'DONE' ? 'checked' : ''}} mr-sm"
+            catchtap="quickToggle"
+            data-id="{{item._id}}"
+          >{{item.status === 'DONE' ? '✅' : '⭕'}}</view>
+
+          <view class="flex-1">
+            <view class="flex-row">
+              <text class="text-base text-bold {{item.status === 'DONE' ? 'task-title-done' : ''}}">{{item.title}}</text>
+            </view>
+            <view class="flex-row mt-xs">
+              <view class="tag {{item.priority === 'HIGH' ? 'tag-priority-high' : item.priority === 'MEDIUM' ? 'tag-priority-medium' : 'tag-priority-low'}}">
+                {{item.priority === 'HIGH' ? '高' : item.priority === 'MEDIUM' ? '中' : '低'}}
+              </view>
+              <view class="tag {{item.visibility === 'GROUP' ? 'tag-visibility-group' : 'tag-visibility-personal'}} ml-sm">
+                {{item.visibility === 'GROUP' ? '共享' : '个人'}}
+              </view>
+              <text class="text-sm text-secondary ml-sm" wx:if="{{item.dueTime}}">
+                📅 {{item.dueTime}}
+              </text>
+            </view>
+          </view>
+          <text class="text-secondary">→</text>
+        </view>
+      </view>
+
+      <!-- 加载更多 -->
+      <view class="text-center mt-md mb-lg" wx:if="{{hasMore}}">
+        <text class="text-sm text-secondary" wx:if="{{loading}}">加载中...</text>
+        <text class="text-sm text-primary" wx:else bindtap="loadMore">加载更多</text>
+      </view>
+      <view class="text-center mt-md mb-lg" wx:else>
+        <text class="text-sm text-placeholder">— 没有更多了 —</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 新建按钮 -->
+  <view class="fab" bindtap="goToCreate">
+    <text class="fab-icon">＋</text>
+  </view>
+</view>

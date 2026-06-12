@@ -1,0 +1,39 @@
+<!-- pages/group/members.wxml -->
+<view class="container">
+  <view wx:if="{{!loading}}">
+    <!-- 邀请码提示 -->
+    <view class="card invite-card">
+      <view class="flex-between">
+        <view>
+          <text class="text-sm text-secondary">邀请成员</text>
+          <view class="text-xxl text-bold mt-xs">{{groupInfo.inviteCode}}</view>
+        </view>
+        <view class="btn btn-primary btn-sm" bindtap="copyInviteCode">复制</view>
+      </view>
+    </view>
+
+    <!-- 成员列表 -->
+    <view class="section-title">
+      <text class="text-lg text-bold">小组成员</text>
+      <text class="text-sm text-secondary ml-sm">（{{members.length}}人）</text>
+    </view>
+
+    <view wx:if="{{members.length === 0}}" class="empty-state">
+      <text>暂无成员</text>
+    </view>
+
+    <view wx:for="{{members}}" wx:key="_id" class="card member-card">
+      <view class="flex-row">
+        <image class="avatar" src="{{item.avatarUrl || '/images/avatar.png'}}" mode="aspectFill" />
+        <view class="flex-1 ml-sm">
+          <text class="text-base text-bold">{{item.nickname}}</text>
+        </view>
+        <view wx:if="{{groupInfo.createdBy === item._openid}}" class="tag tag-visibility-group">创建者</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="text-center mt-lg">
+    <text class="text-secondary">加载中...</text>
+  </view>
+</view>

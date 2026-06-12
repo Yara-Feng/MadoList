@@ -1,0 +1,93 @@
+<!-- pages/home/home.wxml -->
+<view class="container">
+  <!-- 用户信息卡片 -->
+  <view class="card user-card">
+    <view class="flex-row">
+      <image class="avatar avatar-lg" src="{{userInfo.avatarUrl || '/images/avatar.png'}}" mode="aspectFill" />
+      <view class="flex-1 ml-sm">
+        <view class="text-xl text-bold">{{userInfo.nickname || '微信用户'}}</view>
+        <view class="text-sm text-secondary mt-xs">
+          {{groupInfo ? groupInfo.name : '未加入小组'}}
+        </view>
+      </view>
+      <view class="badge" bindtap="goToNotifications" wx:if="{{unreadCount > 0}}">
+        <text class="text-lg">🔔</text>
+      </view>
+      <text class="text-lg" bindtap="goToNotifications" wx:else>🔔</text>
+    </view>
+  </view>
+
+  <!-- 小组状态卡片 -->
+  <view class="card group-card" bindtap="goToGroup">
+    <view wx:if="{{!groupInfo}}">
+      <view class="flex-between">
+        <view>
+          <view class="text-lg text-bold">我的小组</view>
+          <view class="text-sm text-secondary mt-xs">加入或创建小组，与伙伴共享待办</view>
+        </view>
+        <text class="text-xl">→</text>
+      </view>
+    </view>
+    <view wx:else>
+      <view class="flex-between">
+        <view>
+          <view class="flex-row">
+            <text class="text-lg text-bold">{{groupInfo.name}}</text>
+            <view class="tag tag-visibility-group ml-sm">{{groupInfo.memberCount || '?'}}人</view>
+          </view>
+          <view class="text-sm text-secondary mt-xs">邀请码：{{groupInfo.inviteCode}}</view>
+        </view>
+        <text class="text-xl">→</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷操作 -->
+  <view class="quick-actions">
+    <view class="action-item" bindtap="goToCreateTask">
+      <view class="action-icon">➕</view>
+      <text class="action-text">新增待办</text>
+    </view>
+    <view class="action-item" bindtap="goToCalendar">
+      <view class="action-icon">📅</view>
+      <text class="action-text">日历视图</text>
+    </view>
+    <view class="action-item" bindtap="goToTasks">
+      <view class="action-icon">📋</view>
+      <text class="action-text">全部待办</text>
+    </view>
+    <view class="action-item" bindtap="goToGroup">
+      <view class="action-icon">👥</view>
+      <text class="action-text">小组管理</text>
+    </view>
+  </view>
+
+  <!-- 今日待办概览 -->
+  <view class="section">
+    <view class="flex-between mb-sm">
+      <text class="text-lg text-bold">待办事项</text>
+      <text class="text-sm text-primary" bindtap="goToTasks">查看全部 →</text>
+    </view>
+
+    <view wx:if="{{todayTasks.length === 0}}" class="empty-state">
+      <text>暂无待办事项</text>
+      <view class="btn btn-primary btn-sm mt-md" bindtap="goToCreateTask">创建待办</view>
+    </view>
+
+    <view wx:for="{{todayTasks}}" wx:key="_id" class="card task-mini" bindtap="goToTaskDetail" data-id="{{item._id}}">
+      <view class="flex-between">
+        <view class="flex-1">
+          <view class="flex-row">
+            <text class="text-base text-ellipsis flex-1">{{item.title}}</text>
+            <view class="tag {{item.priority === 'HIGH' ? 'tag-priority-high' : item.priority === 'MEDIUM' ? 'tag-priority-medium' : 'tag-priority-low'}} ml-sm">
+              {{item.priority === 'HIGH' ? '高' : item.priority === 'MEDIUM' ? '中' : '低'}}
+            </view>
+          </view>
+          <view class="text-sm text-secondary mt-xs" wx:if="{{item.dueTime}}">
+            📅 {{item.dueTime}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

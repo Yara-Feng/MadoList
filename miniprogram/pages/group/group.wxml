@@ -1,0 +1,64 @@
+<!-- pages/group/group.wxml -->
+<view class="container">
+  <view wx:if="{{!loading}}">
+    <!-- 未加入小组 -->
+    <view wx:if="{{!groupInfo}}" class="empty-state no-group-state">
+      <text class="text-lg">👥</text>
+      <text class="text-lg text-bold mt-md">还没有加入小组</text>
+      <text class="text-sm text-secondary mt-sm">加入或创建一个小组，与伙伴共享待办</text>
+      <view class="mt-lg" style="width: 100%;">
+        <view class="btn btn-primary btn-block" bindtap="goToCreate">创建小组</view>
+        <view class="btn btn-outline btn-block mt-sm" bindtap="goToJoin">加入小组</view>
+      </view>
+    </view>
+
+    <!-- 已加入小组 -->
+    <view wx:else>
+      <!-- 小组信息 -->
+      <view class="card">
+        <view class="flex-row">
+          <view class="group-avatar">👥</view>
+          <view class="flex-1 ml-sm">
+            <text class="text-xl text-bold">{{groupInfo.name}}</text>
+            <view class="text-sm text-secondary mt-xs">{{groupInfo.memberCount || '?'}} 位成员</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 邀请码 -->
+      <view class="card">
+        <view class="flex-between">
+          <view>
+            <text class="text-sm text-secondary">邀请码</text>
+            <view class="text-xl text-bold mt-xs">{{groupInfo.inviteCode}}</view>
+          </view>
+          <view class="btn btn-outline btn-sm" bindtap="copyInviteCode">复制</view>
+        </view>
+        <view class="text-sm text-secondary mt-sm">
+          将此邀请码分享给好友，邀请他们加入小组
+        </view>
+        <view wx:if="{{groupInfo.isCreator}}" class="mt-md">
+          <text class="text-sm text-danger" bindtap="resetInviteCode">重置邀请码</text>
+        </view>
+      </view>
+
+      <!-- 成员列表 -->
+      <view class="card" bindtap="goToMembers">
+        <view class="flex-between">
+          <text class="text-lg text-bold">小组成员</text>
+          <text class="text-secondary">查看全部 →</text>
+        </view>
+      </view>
+
+      <!-- 退出小组 -->
+      <view class="mt-lg">
+        <text class="text-sm text-danger" bindtap="leaveGroup">退出小组</text>
+        <view class="text-xs text-placeholder mt-xs">退出后共享待办将不可见，个人待办保留</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="text-center mt-lg">
+    <text class="text-secondary">加载中...</text>
+  </view>
+</view>

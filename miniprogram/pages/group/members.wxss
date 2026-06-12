@@ -1,0 +1,14 @@
+/* pages/group/members.wxss */
+
+.invite-card {
+  margin-bottom: var(--spacing-md);
+}
+
+.section-title {
+  padding: var(--spacing-md) 0 var(--spacing-sm);
+}
+
+.member-card {
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}

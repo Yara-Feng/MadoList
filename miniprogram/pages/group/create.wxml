@@ -1,0 +1,42 @@
+<!-- pages/group/create.wxml -->
+<view class="container">
+  <!-- 创建前 -->
+  <view wx:if="{{!created}}">
+    <view class="card">
+      <view class="text-lg text-bold mb-md">创建小组</view>
+      <view class="text-sm text-secondary mb-lg">创建一个小组，与伙伴们共享待办事项</view>
+      <input class="name-input" placeholder="输入小组名称" value="{{groupName}}" bindinput="onNameInput" maxlength="20" focus />
+      <view class="text-right text-sm text-secondary mt-xs">{{groupName.length}}/20</view>
+    </view>
+
+    <view class="btn btn-primary btn-block mt-lg" bindtap="createGroup" disabled="{{creating}}">
+      {{creating ? '创建中...' : '创建小组'}}
+    </view>
+  </view>
+
+  <!-- 创建成功 -->
+  <view wx:else>
+    <view class="text-center mt-xl">
+      <text class="text-xxl">🎉</text>
+      <view class="text-xl text-bold mt-md">小组创建成功！</view>
+    </view>
+
+    <view class="card mt-lg">
+      <view class="text-center">
+        <view class="text-sm text-secondary">小组名称</view>
+        <view class="text-xl text-bold mt-xs">{{createdGroup.name}}</view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="text-center">
+        <view class="text-sm text-secondary">邀请码</view>
+        <view class="invite-code">{{createdGroup.inviteCode}}</view>
+        <view class="text-sm text-secondary mt-xs">将此邀请码分享给好友</view>
+      </view>
+      <view class="btn btn-primary btn-block mt-md" bindtap="copyInviteCode">复制邀请码</view>
+    </view>
+
+    <view class="btn btn-outline btn-block mt-lg" bindtap="goToGroup">完成</view>
+  </view>
+</view>

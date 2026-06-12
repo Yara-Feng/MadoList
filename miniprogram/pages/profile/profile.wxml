@@ -1,0 +1,68 @@
+<!-- pages/profile/profile.wxml -->
+<view class="container">
+  <!-- 用户信息 -->
+  <view class="card user-profile-card">
+    <view class="flex-column text-center">
+      <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <image class="avatar avatar-lg" src="{{userInfo.avatarUrl || '/images/avatar.png'}}" mode="aspectFill" />
+      </button>
+      <view class="mt-sm" wx:if="{{!isEditing}}">
+        <view class="flex-row" style="justify-content: center;">
+          <text class="text-xl text-bold">{{userInfo.nickname || '微信用户'}}</text>
+          <text class="text-sm text-primary ml-sm" bindtap="startEditNickname">✏️</text>
+        </view>
+      </view>
+      <view class="mt-sm" wx:else>
+        <view class="flex-row" style="justify-content: center;">
+          <input class="nickname-input" type="nickname" value="{{editNickname}}" bindinput="onNicknameInput" placeholder="请输入昵称" maxlength="20" focus />
+          <text class="text-sm text-primary ml-sm" bindtap="saveNickname">保存</text>
+          <text class="text-sm text-secondary ml-sm" bindtap="cancelEdit">取消</text>
+        </view>
+      </view>
+      <view class="text-sm text-secondary mt-xs">
+        加入于 {{userInfo.createdAt || ''}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 小组信息 -->
+  <view class="card" bindtap="goToGroup" wx:if="{{groupInfo}}">
+    <view class="flex-between">
+      <view>
+        <text class="text-lg text-bold">我的小组</text>
+        <view class="flex-row mt-xs">
+          <text class="text-base">{{groupInfo.name}}</text>
+          <view class="tag tag-visibility-group ml-sm">{{groupInfo.memberCount || '?'}}人</view>
+        </view>
+      </view>
+      <text class="text-xl">→</text>
+    </view>
+    <view class="flex-between mt-md" wx:if="{{groupInfo}}">
+      <text class="text-sm text-secondary">邀请码：{{groupInfo.inviteCode}}</text>
+      <text class="text-sm text-danger" catchtap="leaveGroup">退出小组</text>
+    </view>
+  </view>
+
+  <view class="card" bindtap="goToGroup" wx:else>
+    <view class="flex-between">
+      <view>
+        <text class="text-lg text-bold">我的小组</text>
+        <view class="text-sm text-secondary mt-xs">未加入小组</view>
+      </view>
+      <text class="text-xl">→</text>
+    </view>
+  </view>
+
+  <!-- 设置 -->
+  <view class="card">
+    <view class="setting-item" bindtap="showAbout">
+      <text class="text-base">关于 MadoList</text>
+      <text class="text-sm text-secondary">v1.0.0 MVP →</text>
+    </view>
+  </view>
+
+  <!-- 提示 -->
+  <view class="text-center mt-lg">
+    <text class="text-sm text-placeholder">微信云开发 · 数据安全可靠</text>
+  </view>
+</view>

@@ -1,0 +1,83 @@
+/* pages/tasks/detail.wxss */
+
+.field-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.field-input {
+  width: 100%;
+  padding: 12rpx 0;
+  font-size: var(--font-size-base);
+}
+
+.field-textarea {
+  width: 100%;
+  min-height: 120rpx;
+  padding: 12rpx 0;
+  font-size: var(--font-size-base);
+}
+
+.option-row {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.option-tag {
+  padding: 12rpx 32rpx;
+  border-radius: 32rpx;
+  font-size: var(--font-size-sm);
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  border: 2rpx solid transparent;
+}
+
+.option-tag-active {
+  border-color: currentColor;
+}
+
+.picker-value {
+  padding: 12rpx 0;
+  font-size: var(--font-size-base);
+}
+
+.actions {
+  padding: var(--spacing-md) 0 var(--spacing-lg);
+}
+
+/* 弹窗 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--color-bg-white);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: var(--spacing-lg);
+  width: 100%;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.modal-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1rpx solid var(--color-divider);
+}

@@ -1,0 +1,16 @@
+/* pages/group/group.wxss */
+
+.no-group-state {
+  padding: 200rpx var(--spacing-md);
+}
+
+.group-avatar {
+  font-size: 64rpx;
+  width: 100rpx;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary-light);
+  border-radius: var(--radius-md);
+}

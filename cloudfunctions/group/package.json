@@ -1,0 +1,9 @@
+{
+  "name": "group",
+  "version": "1.0.0",
+  "description": "小组管理",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

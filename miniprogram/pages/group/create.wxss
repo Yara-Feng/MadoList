@@ -1,0 +1,22 @@
+/* pages/group/create.wxss */
+
+.name-input {
+  width: 100%;
+  padding: 20rpx 16rpx;
+  border: 2rpx solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-lg);
+  box-sizing: border-box;
+}
+
+.name-input:focus {
+  border-color: var(--color-primary);
+}
+
+.invite-code {
+  font-size: 64rpx;
+  font-weight: 700;
+  letter-spacing: 8rpx;
+  color: var(--color-primary);
+  padding: var(--spacing-md) 0;
+}
